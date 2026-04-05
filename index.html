@@ -1,1 +1,392 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jay Desai — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ====== NAV ====== -->
+  <nav>
+    <div class="nav-logo"><span>~/</span>jaydesai</div>
+    <div class="nav-links">
+      <a href="#projects">projects</a>
+      <a href="#skills">skills</a>
+      <a href="#about">about</a>
+      <a href="https://github.com/NotJaay" target="_blank">github</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- ====== HERO ====== -->
+    <section class="hero">
+      <div class="prompt">$ whoami</div>
+      <h1>Jay Desai<span class="cursor"></span></h1>
+      <div class="meta">
+        <span><span class="dim">school:</span> University of Maryland, College Park</span>
+        <span><span class="dim">major:</span> Computer Science</span>
+        <span><span class="dim">year:</span> December 2025</span>
+      </div>
+      <p class="bio">
+        I build compilers, games, and systems software. Interested in programming
+        languages theory, functional programming, and low-level systems. Browse my
+        projects below — run them, read the source, or download them.
+      </p>
+      <div class="hero-links">
+        <a href="https://github.com/NotJaay" target="_blank" class="btn green">⌥ github</a>
+        <a href="/cdn-cgi/l/email-protection#83e9e2fac3e6fbe2eef3efe6ade0ecee" class="btn">✉ email</a>
+        <a href="resume.pdf" class="btn">↓ resume</a>
+      </div>
+    </section>
+
+    <!-- ====== SKILLS ====== -->
+    <section class="section" id="skills">
+      <div class="section-header">
+        <span class="dim">$ ls languages/</span>
+        <div class="line"></div>
+      </div>
+      <div class="skills-grid">
+        <div class="skill"><strong>Java</strong><span>proficient</span></div>
+        <div class="skill"><strong>Haskell</strong><span>proficient</span></div>
+        <div class="skill"><strong>Racket</strong><span>proficient</span></div>
+        <div class="skill"><strong>Python</strong><span>proficient</span></div>
+        <div class="skill"><strong>C</strong><span>intermediate</span></div>
+        <div class="skill"><strong>OCaml</strong><span>intermediate</span></div>
+        <div class="skill"><strong>JavaScript</strong><span>intermediate</span></div>
+        <div class="skill"><strong>Rust</strong><span>familiar</span></div>
+        <div class="skill"><strong>SQL</strong><span>familiar</span></div>
+        <div class="skill"><strong>Kotlin</strong><span>proficient</span></div>
+      </div>
+    </section>
+
+    <!-- ====== PROJECTS ======
+
+         HOW TO ADD / REMOVE PROJECTS:
+         ─────────────────────────────
+         Each project is one <div class="project-card"> block below.
+         
+         To ADD a project:    Copy any project block and paste it below the last one.
+                              Change the data-project="..." to match your backend folder name.
+                              Edit the title, description, tags, and readme.
+         
+         To REMOVE a project: Delete the entire <div class="project-card">...</div> block.
+         
+         To REORDER:          Move the whole block up or down.
+         
+         The data-project="poker" attribute links this card to backend/projects/poker/
+         That's the ONLY connection between frontend and backend.
+
+         TAG COLORS (add class to <span class="tag">):
+           java | haskell | racket | python | c | ocaml | js | rust | cpp | go | kotlin
+
+    ============================== -->
+    <section class="section" id="projects">
+      <div class="section-header">
+        <span class="dim">$ ls projects/</span>
+        <div class="line"></div>
+      </div>
+      <div class="projects-list">
+
+        <!-- ════════════════════════════════════════════
+             PROJECT 1 — POKER
+             data-project="poker" → backend/projects/poker/
+             ════════════════════════════════════════════ -->
+        <div class="project-card" data-project="poker">
+          <!-- Header — click to expand -->
+          <div class="project-header" onclick="toggle(this)">
+            <div>
+              <div class="project-title">Texas Hold'em Poker Engine</div>
+              <div class="project-sub">Object-oriented card game with AI opponents</div>
+
+              <div class="tags">
+                <span class="tag java">Java</span>
+                <span class="tag">OOP</span>
+                <span class="tag">Game</span>
+              </div>
+
+            </div>
+            <div class="toggle-label"><span class="arrow">▶</span> run</div>
+          </div>
+          <!-- Runner — hidden until expanded -->
+          <div class="runner">
+            <div class="tabs">
+              <div class="tab active" onclick="switchTab(this, 'run')">▷ run</div>
+              <div class="tab" onclick="switchTab(this, 'source')">{ } source</div>
+              <div class="tab" onclick="switchTab(this, 'readme')">readme</div>
+            </div>
+            <!-- Run panel — terminal -->
+            <div class="panel active" data-panel="run">
+              <div class="terminal">
+
+                <div class="t-out"><span class="t-green">Poker Engine v1.0</span>
+                  <span class="t-dim">Commands: deal | check | call | raise | fold</span>
+                </div>
+
+                <div class="t-input">
+                  <span class="t-prompt">$</span>
+                  <input type="text" placeholder="deal" onkeydown="if(event.key==='Enter') run(this)">
+                  <button onclick="run(this)">run ↵</button>
+                </div>
+
+              </div>
+            </div>
+            <!-- Source panel — code viewer (loaded from backend) -->
+            <div class="panel" data-panel="source">
+              <div class="code-viewer">
+                <div class="src-filelist"><span class="t-dim">click to load</span></div>
+                <pre class="src-code">// select a file to view</pre>
+              </div>
+            </div>
+            <!-- Readme panel — you write this by hand -->
+            <div class="panel" data-panel="readme">
+              <div class="info">
+                <p>A fully functional Texas Hold'em engine written in Java. Implements
+                   hand evaluation, all four betting rounds, and a heuristic AI opponent.</p>
+                <pre>HandEvaluator eval = new HandEvaluator(); 
+                     Hand h = new Hand(player.getCards(), board.getCards());
+                     HandRank rank = eval.evaluate(h); // → FULL_HOUSE</pre>
+                <a href="https://github.com/NotJaay/poker" target="_blank" class="btn">↗ github</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ════════════════════════════════════════════
+             PROJECT 2 — COMPILER
+             data-project="compiler" → backend/projects/compiler/
+             ════════════════════════════════════════════ -->
+        <div class="project-card" data-project="compiler">
+          <div class="project-header" onclick="toggle(this)">
+            <div>
+              <div class="project-title">MiniLang Compiler</div>
+              <div class="project-sub">Lexer → parser → type checker → code gen</div>
+              <div class="tags">
+                <span class="tag haskell">Haskell</span>
+                <span class="tag">Compilers</span>
+                <span class="tag">PLT</span>
+              </div>
+            </div>
+            <div class="toggle-label"><span class="arrow">▶</span> run</div>
+          </div>
+          <div class="runner">
+            <div class="tabs">
+              <div class="tab active" onclick="switchTab(this, 'run')">▷ run</div>
+              <div class="tab" onclick="switchTab(this, 'source')">{ } source</div>
+              <div class="tab" onclick="switchTab(this, 'readme')">readme</div>
+            </div>
+            <div class="panel active" data-panel="run">
+              <div class="terminal">
+                <div class="t-out"><span class="t-green">MiniLang v1.0</span>
+                  <span class="t-dim">Try: let x = 5 in x * x</span>
+                  <span class="t-dim">Supports: let, if/then/else, arithmetic</span>
+                </div>
+                <div class="t-input">
+                  <span class="t-prompt">λ</span>
+                  <input type="text" placeholder="let x = 10 in x + x" onkeydown="if(event.key==='Enter') run(this)">
+                  <button onclick="run(this)">run ↵</button>
+                </div>
+              </div>
+            </div>
+            <div class="panel" data-panel="source">
+              <div class="code-viewer">
+                <div class="src-filelist"><span class="t-dim">click to load</span></div>
+                <pre class="src-code">// select a file to view</pre>
+              </div>
+            </div>
+            <div class="panel" data-panel="readme">
+              <div class="info">
+                <p>A complete compiler pipeline for MiniLang, a small functional language
+                   with Hindley-Milner type inference, written in Haskell using Parsec.</p>
+                <pre>let fact = \n -> if n == 0 then 1 else n * fact (n - 1) in fact 10</pre>
+                <a href="https://github.com/NotJaay/minilang" target="_blank" class="btn">↗ github</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ════════════════════════════════════════════
+             PROJECT 3 — SCHEME
+             data-project="scheme" → backend/projects/scheme/
+             ════════════════════════════════════════════ -->
+        <div class="project-card" data-project="scheme">
+          <div class="project-header" onclick="toggle(this)">
+            <div>
+              <div class="project-title">Iniquity+ Interpreter</div>
+              <div class="project-sub">Compiled language with closures, case-lambda, and rich types</div>
+              <div class="tags">
+                <span class="tag racket">Racket</span>
+                <span class="tag">Compilers</span>
+                <span class="tag">PLT</span>
+              </div>
+            </div>
+            <div class="toggle-label"><span class="arrow">▶</span> run</div>
+          </div>
+          <div class="runner">
+            <div class="tabs">
+              <div class="tab active" onclick="switchTab(this, 'run')">▷ run</div>
+              <div class="tab" onclick="switchTab(this, 'source')">{ } source</div>
+              <div class="tab" onclick="switchTab(this, 'readme')">readme</div>
+            </div>
+            <div class="panel active" data-panel="run">
+              <div class="terminal">
+
+                <div class="t-out"><span class="t-blue">Iniquity+ v1.0</span>
+                  <span class="t-dim">Try: (define (fact n) (if (= n 0) 1 (* n (fact (- n 1)))))</span>
+                  <span class="t-dim">(fact 10)</span>
+                </div>
+
+                <div class="t-input">
+                  <span class="t-prompt">⟩</span>
+                  <input type="text" placeholder="(+ 1 2)" onkeydown="if(event.key==='Enter') run(this)">
+                  <button onclick="run(this)">run ↵</button>
+                </div>
+
+              </div>
+            </div>
+            <div class="panel" data-panel="source">
+              <div class="code-viewer">
+                <div class="src-filelist"><span class="t-dim">click to load</span></div>
+                <pre class="src-code">// select a file to view</pre>
+              </div>
+            </div>
+            <div class="panel" data-panel="readme">
+              <div class="info">
+                <p>Iniquity+ is a compiled, Scheme-like language implemented in Racket.
+                   Supports variadic functions via case-lambda, rest arguments, and apply.</p>
+                <p style="margin-top:10px"><em>Source is private — try the live interpreter above.</em></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ════════════════════════════════════════════
+             PROJECT 4 — EMPTY SLOT (copy this to add more)
+             data-project="project4" → backend/projects/project4/
+             ════════════════════════════════════════════ -->
+        <div class="project-card" data-project="project4">
+          <div class="project-header" onclick="toggle(this)">
+            <div>
+              <div class="project-title">Project 4</div>
+              <div class="project-sub">Add Description to HTML</div>
+              <div class="tags">
+                <span class="tag python">Python</span>
+                <span class="tag">Game</span>
+              </div>
+            </div>
+            <div class="toggle-label"><span class="arrow">▶</span> run</div>
+          </div>
+          <div class="runner">
+            <div class="tabs">
+              <div class="tab active" onclick="switchTab(this, 'run')">▷ run</div>
+              <div class="tab" onclick="switchTab(this, 'source')">{ } source</div>
+              <div class="tab" onclick="switchTab(this, 'readme')">readme</div>
+            </div>
+            <div class="panel active" data-panel="run">
+              <div class="terminal">
+                <div class="t-out"><span class="t-green">Project 4 — coming soon</span></div>
+                <div class="t-input">
+                  <span class="t-prompt">$</span>
+                  <input type="text" placeholder="type here..." onkeydown="if(event.key==='Enter') run(this)">
+                  <button onclick="run(this)">run ↵</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel" data-panel="source">
+              <div class="code-viewer">
+                <div class="src-filelist"><span class="t-dim">click to load</span></div>
+                <pre class="src-code">// select a file to view</pre>
+              </div>
+            </div>
+
+            <div class="panel" data-panel="readme">
+              <div class="info">
+                <p>Describe your project here.</p>
+                <pre># your code snippet def example(): return "replace me"</pre>
+                <a href="https://github.com/NotJaay" target="_blank" class="btn">↗ github</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ════════════════════════════════════════════
+             PROJECT 5 — EMPTY SLOT
+             ════════════════════════════════════════════ -->
+        <div class="project-card" data-project="project5">
+          <div class="project-header" onclick="toggle(this)">
+            <div>
+              <div class="project-title">Project 5</div>
+              <div class="project-sub">Add Description to HTML</div>
+              <div class="tags"><span class="tag c">C</span><span class="tag">Systems</span></div>
+            </div>
+            <div class="toggle-label"><span class="arrow">▶</span> run</div>
+          </div>
+
+          <div class="runner">
+            <div class="tabs">
+              <div class="tab active" onclick="switchTab(this, 'run')">▷ run</div>
+              <div class="tab" onclick="switchTab(this, 'source')">{ } source</div>
+              <div class="tab" onclick="switchTab(this, 'readme')">readme</div>
+            </div>
+
+            <div class="panel active" data-panel="run">
+              <div class="terminal">
+                <div class="t-out"><span class="t-green">Project 5 — coming soon</span></div>
+                <div class="t-input">
+                  <span class="t-prompt">$</span>
+                  <input type="text" placeholder="type here..." onkeydown="if(event.key==='Enter') run(this)">
+                  <button onclick="run(this)">run ↵</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel" data-panel="source">
+              <div class="code-viewer">
+                <div class="src-filelist"><span class="t-dim">click to load</span></div>
+                <pre class="src-code">// select a file to view</pre>
+              </div>
+            </div>
+
+            <div class="panel" data-panel="readme">
+              <div class="info">
+                <p>Description here.</p>
+                <pre>// code snippet</pre>
+                <a href="https://github.com/NotJaay" target="_blank" class="btn">↗ github</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Future Reference: Copy any project block above to add more projects -->
+
+      </div>
+    </section>
+
+    <!-- ====== ABOUT ====== -->
+    <section class="section" id="about">
+      <div class="section-header">
+        <span class="dim">$ cat about.txt</span>
+        <div class="line"></div>
+      </div>
+      <div class="about-grid">
+        <div><div class="about-label">name</div><div class="about-val">Jay Desai</div></div>
+        <div><div class="about-label">github</div><div class="about-val"><a href="https://github.com/NotJaay" target="_blank">github.com/NotJaay</a></div></div>
+        <div><div class="about-label">email</div><div class="about-val"><a href="/cdn-cgi/l/email-protection#234d4c5749425a474650424a63444e424a4f0d404c4e">HERE!</a></div></div>
+        <div><div class="about-label">school</div><div class="about-val">University of Maryland, College Park</div></div>
+        <div><div class="about-label">interests</div><div class="about-val">PLT · Compilers · Systems · Functional Programming</div></div>
+        <div><div class="about-label">resume</div><div class="about-val"><a href="resume.pdf">resume.pdf</a></div></div>
+      </div>
+    </section>
+  </div>
+
+  <footer>built by <a>jay desai ·</a> <a href="https://github.com/NotJaay/" target="_blank">source</a></footer>
+  <script src="script.js"></script>
+</body>
+</html>
