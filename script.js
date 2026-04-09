@@ -63,14 +63,19 @@ function esc(s) {
 }
 
 /* PRINT: append a line to a terminal output 
-   outEl = the .t-out div inside a terminal
-   Uses real DOM append (not innerHTML +=) so existing content
-   isn't destroyed and recreated each time.
+   outEl    — the .t-out div inside a terminal
+   text     — plain text (not HTML) to display
+   cls      — optional extra class like "t-green" for coloring
+
+   Uses textContent + createElement (not innerHTML) so:
+   (1) existing content is never rebuilt from a string
+   (2) newline characters in `text` are preserved as real newlines
+       and rendered as line breaks by the .t-line { white-space: pre-wrap } rule.
  */
-function print(outEl, html) {
+function print(outEl, text, cls) {
   var line = document.createElement('div');
-  line.className = 't-line';
-  line.innerHTML = html;
+  line.className = 't-line' + (cls ? ' ' + cls : '');
+  line.textContent = text;
   outEl.appendChild(line);
   outEl.scrollTop = outEl.scrollHeight;
   return line; // so callers can remove it later (for "running...")
@@ -103,18 +108,18 @@ async function run(el) {
     return;
   }
 
-  // Show what the user typed
-  print(output, '<span class="t-dim">$ ' + esc(text) + '</span>');
+  // Show what the user typed (in dim color)
+  print(output, '$ ' + text, 't-dim');
   input.value = '';
 
   // Check if backend is set up
   if (!BACKEND_URL) {
-    print(output, '<span class="t-red">⚠ Set BACKEND_URL in script.js first</span>');
+    print(output, '⚠ Set BACKEND_URL in script.js first', 't-red');
     return;
   }
 
   // Show "running..." while we wait — keep a reference so we can remove it
-  var runningLine = print(output, '<span class="t-dim">  running...</span>');
+  var runningLine = print(output, '  running...', 't-dim');
 
   try {
     // Send the input to the backend
@@ -130,16 +135,16 @@ async function run(el) {
 
     // Print the result (green for output, red for errors)
     if (data.error) {
-      print(output, '<span class="t-red">' + esc(data.error) + '</span>');
+      print(output, data.error, 't-red');
     } else {
-      print(output, '<span class="t-green">' + esc(data.output) + '</span>');
+      print(output, data.output, 't-green');
     }
   } catch (err) {
     // Remove the "running..." line
     if (runningLine && runningLine.parentNode) runningLine.parentNode.removeChild(runningLine);
 
     // This usually means the server is asleep (Render free tier cold start)
-    print(output, '<span class="t-yellow">⏳ Server waking up (~30s). Try again.</span>');
+    print(output, '⏳ Server waking up (~30s). Try again.', 't-yellow');
   }
 }
 

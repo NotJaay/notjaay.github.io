@@ -181,10 +181,13 @@ h1 {
   padding: 12px 16px; min-height: 150px; max-height: 600px;
   overflow-y: auto; color: #d4d4d4; line-height: 1.6;
 }
-/* Welcome spans inside .t-out are block-level so HTML indentation doesn't matter */
-.t-out > span { display: block; }
-/* Dynamically-printed output lines preserve whitespace (for ASCII art, game boards) */
-.t-line { display: block; white-space: pre-wrap; }
+/* Each welcome line is its own block so indentation in HTML doesn't matter */
+.t-out > span,
+.t-out > div { display: block; }
+/* Dynamically-printed output lines — preserve newlines and leading spaces
+   (needed for the Wordle board and the Dungeon map) */
+.t-line { display: block; white-space: pre-wrap; font-family: var(--mono); }
+.t-line > span { white-space: pre-wrap; }
 .t-input {
   display: flex; align-items: center; gap: 8px;
   padding: 8px 16px; border-top: 1px solid #1a1a1a;
