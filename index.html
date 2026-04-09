@@ -9,7 +9,7 @@
 </head>
 <body>
 
-  <!-- ====== NAV ====== -->
+  <!-- NAV -->
   <nav>
     <div class="nav-logo"><span>~/</span>jaydesai</div>
     <div class="nav-links">
@@ -22,7 +22,7 @@
 
   <div class="container">
 
-    <!-- ====== HERO ====== -->
+    <!-- HERO  -->
     <section class="hero">
       <div class="prompt">$ whoami</div>
       <h1>Jay Desai<span class="cursor"></span></h1>
@@ -32,9 +32,15 @@
         <span><span class="dim">year:</span> December 2025</span>
       </div>
       <p class="bio">
-        I build compilers, games, and systems software. Interested in programming
-        languages theory, functional programming, and low-level systems. Browse my
-        projects below — run them, read the source, or download them.
+        Computer Science student at the University of Maryland, College Park,
+        graduating in December 2025. I build compilers, games, and systems software,
+        and I'm drawn to the corners of CS where math, security, and finance meet.
+        My interests cover programming language theory, functional programming,
+        and low-level systems on one side, and cybersecurity, applied cryptography,
+        and crypto-finance on the other. Coursework so far includes compilers,
+        operating systems, computer security, computer networks, algorithms,
+        and discrete math. Browse my projects below — run them, read the source,
+        or download them.
       </p>
       <div class="hero-links">
         <a href="https://github.com/NotJaay" target="_blank" class="btn green">⌥ github</a>
@@ -43,7 +49,7 @@
       </div>
     </section>
 
-    <!-- ====== SKILLS ====== -->
+    <!-- SKILLS -->
     <section class="section" id="skills">
       <div class="section-header">
         <span class="dim">$ ls languages/</span>
@@ -63,27 +69,15 @@
       </div>
     </section>
 
-    <!-- ====== PROJECTS ======
-
-         HOW TO ADD / REMOVE PROJECTS:
-         ─────────────────────────────
+    <!-- PROJECTS
+         How to add / remove projects:
          Each project is one <div class="project-card"> block below.
-         
-         To ADD a project:    Copy any project block and paste it below the last one.
-                              Change the data-project="..." to match your backend folder name.
-                              Edit the title, description, tags, and readme.
-         
-         To REMOVE a project: Delete the entire <div class="project-card">...</div> block.
-         
-         To REORDER:          Move the whole block up or down.
-         
-         The data-project="poker" attribute links this card to backend/projects/poker/
-         That's the ONLY connection between frontend and backend.
+         The data-project attribute links the card to backend/projects/<name>/
+         That's the only connection between frontend and backend.
 
-         TAG COLORS (add class to <span class="tag">):
+         Tag colors (add class to <span class="tag">):
            java | haskell | racket | python | c | ocaml | js | rust | cpp | go | kotlin
-
-    ============================== -->
+    -->
     <section class="section" id="projects">
       <div class="section-header">
         <span class="dim">$ ls projects/</span>
@@ -91,74 +85,190 @@
       </div>
       <div class="projects-list">
 
-        <!-- ════════════════════════════════════════════
-             PROJECT 1 — POKER
-             data-project="poker" → backend/projects/poker/
-             ════════════════════════════════════════════ -->
-        <div class="project-card" data-project="poker">
-          <!-- Header — click to expand -->
+        <!-- Project 1 — Haskell Wordle  (backend/projects/wordle) -->
+        <div class="project-card" data-project="wordle">
           <div class="project-header" onclick="toggle(this)">
             <div>
-              <div class="project-title">Texas Hold'em Poker Engine</div>
-              <div class="project-sub">Object-oriented card game with AI opponents</div>
-
+              <div class="project-title">Haskell Wordle</div>
+              <div class="project-sub">Functional word-guessing game with persistent state</div>
               <div class="tags">
-                <span class="tag java">Java</span>
-                <span class="tag">OOP</span>
+                <span class="tag haskell">Haskell</span>
                 <span class="tag">Game</span>
+                <span class="tag">Functional</span>
               </div>
-
             </div>
             <div class="toggle-label"><span class="arrow">▶</span> run</div>
           </div>
-          <!-- Runner — hidden until expanded -->
+
           <div class="runner">
             <div class="tabs">
               <div class="tab active" onclick="switchTab(this, 'run')">▷ run</div>
               <div class="tab" onclick="switchTab(this, 'source')">{ } source</div>
               <div class="tab" onclick="switchTab(this, 'readme')">readme</div>
             </div>
-            <!-- Run panel — terminal -->
+
             <div class="panel active" data-panel="run">
               <div class="terminal">
-
-                <div class="t-out"><span class="t-green">Poker Engine v1.0</span>
-                  <span class="t-dim">Commands: deal | check | call | raise | fold</span>
+                <div class="t-out">
+                  <span class="t-green">Haskell Wordle v1.0</span>
+                  <span class="t-dim">Guess the 5-letter word in 6 tries.</span>
+                  <span class="t-dim">✓ correct position   ○ wrong position   · not in word</span>
+                  <span class="t-dim">Commands: any 5-letter word | show | reset | help</span>
                 </div>
-
                 <div class="t-input">
-                  <span class="t-prompt">$</span>
-                  <input type="text" placeholder="deal" onkeydown="if(event.key==='Enter') run(this)">
+                  <span class="t-prompt"><img src="./backend/projects/sharingan.png" width="16" height="16" alt="prompt" style="margin-top:5px;"></span>
+                  <input type="text" placeholder="comet" style="font-size:13px; margin-top:-2.5px;" onkeydown="if(event.key==='Enter') run(this)">
                   <button onclick="run(this)">run ↵</button>
                 </div>
-
               </div>
             </div>
-            <!-- Source panel — code viewer (loaded from backend) -->
+
             <div class="panel" data-panel="source">
               <div class="code-viewer">
                 <div class="src-filelist"><span class="t-dim">click to load</span></div>
                 <pre class="src-code">// select a file to view</pre>
               </div>
             </div>
-            <!-- Readme panel — you write this by hand -->
+
             <div class="panel" data-panel="readme">
               <div class="info">
-                <p>A fully functional Texas Hold'em engine written in Java. Implements
-                   hand evaluation, all four betting rounds, and a heuristic AI opponent.</p>
-                <pre>HandEvaluator eval = new HandEvaluator(); 
-                     Hand h = new Hand(player.getCards(), board.getCards());
-                     HandRank rank = eval.evaluate(h); // → FULL_HOUSE</pre>
-                <a href="https://github.com/NotJaay/poker" target="_blank" class="btn">↗ github</a>
+                <p>A complete Wordle clone written in pure Haskell using only the
+                   base and time libraries — no external packages, no Stack, no
+                   Cabal project. The whole game lives in a single file that
+                   compiles directly with <code>ghc</code>.</p>
+                <p>Each request reads a 5-letter guess from stdin, checks it
+                   against the daily target word, updates the saved game state
+                   on disk, and prints a colorized result line. The target word
+                   rotates daily based on the current date, so the same word
+                   stays in play for everyone all day, just like the real
+                   Wordle. Game state (target plus guesses so far) is persisted
+                   to <code>game.txt</code> between requests, so the portfolio
+                   terminal can play a full six-guess game across many separate
+                   HTTP calls.</p>
+                <p>The interesting part is the two-pass guess scoring algorithm.
+                   A naive implementation gets letter duplicates wrong: if the
+                   target is <code>ALLEY</code> and you guess <code>LULLS</code>,
+                   only one of the two L's in your guess should turn yellow.
+                   The two-pass algorithm marks exact matches first, then
+                   processes the remaining letters against a multiset of
+                   unmatched target letters:</p>
+<pre>checkGuess :: String -> String -> [(Char, Mark)]
+checkGuess target guess = zip guess marks
+  where
+    -- Pass 1: mark exact position matches
+    exactMatches = zipWith
+      (\t g -> if t == g then Correct else NotInWord)
+      target guess
+
+    -- Letters in the target that weren't already exact-matched
+    remaining = [ t | (t, m) &lt;- zip target exactMatches
+                    , m /= Correct ]
+
+    -- Pass 2: for each non-Correct letter, check the remaining pool
+    marks = snd $ foldl step (remaining, []) (zip guess exactMatches)
+
+    step (pool, acc) (g, Correct) = (pool, acc ++ [Correct])
+    step (pool, acc) (g, _)
+      | g `elem` pool = (delete g pool, acc ++ [WrongPos])
+      | otherwise     = (pool,          acc ++ [NotInWord])</pre>
+                <p>Demonstrates: algebraic data types, pattern matching, pure
+                   functions, IO separation, and Haskell's <code>Data.Time</code>
+                   for the daily-word rotation.</p>
+                <a href="https://github.com/NotJaay" target="_blank" class="btn">↗ github</a>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- ════════════════════════════════════════════
-             PROJECT 2 — COMPILER
-             data-project="compiler" → backend/projects/compiler/
-             ════════════════════════════════════════════ -->
+        <!-- Project 2 — Dungeon Crawler  (backend/projects/dungeon) -->
+        <div class="project-card" data-project="dungeon">
+          <div class="project-header" onclick="toggle(this)">
+            <div>
+              <div class="project-title">Dungeon Crawler</div>
+              <div class="project-sub">Roguelike with procedural generation, combat, and leveling</div>
+              <div class="tags">
+                <span class="tag haskell">Haskell</span>
+                <span class="tag">Game</span>
+                <span class="tag">Functional</span>
+              </div>
+            </div>
+            <div class="toggle-label"><span class="arrow">▶</span> run</div>
+          </div>
+
+          <div class="runner">
+            <div class="tabs">
+              <div class="tab active" onclick="switchTab(this, 'run')">▷ run</div>
+              <div class="tab" onclick="switchTab(this, 'source')">{ } source</div>
+              <div class="tab" onclick="switchTab(this, 'readme')">readme</div>
+            </div>
+
+            <div class="panel active" data-panel="run">
+              <div class="terminal">
+                <div class="t-out">
+                  <span class="t-green">Dungeon Crawler v1.0</span>
+                  <span class="t-dim">Navigate 5 floors. Fight monsters. Escape alive.</span>
+                  <span class="t-dim">Commands: n/s/e/w | look | map | stats | reset | help</span>
+                </div>
+                <div class="t-input">
+                  <span class="t-prompt"><img src="./backend/projects/mangekyou.GIF" width="16" height="16" alt="prompt" style="margin-top:5px;"></span>
+                  <input type="text" placeholder="map" style="font-size:13px; margin-top:-2.5px;" onkeydown="if(event.key==='Enter') run(this)">
+                  <button onclick="run(this)">run ↵</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel" data-panel="source">
+              <div class="code-viewer">
+                <div class="src-filelist"><span class="t-dim">click to load</span></div>
+                <pre class="src-code">// select a file to view</pre>
+              </div>
+            </div>
+
+            <div class="panel" data-panel="readme">
+              <div class="info">
+                <p>A turn-based roguelike written entirely in Haskell with no
+                   external libraries beyond base and time. Five procedurally
+                   generated floors of increasing difficulty, each with monsters,
+                   gold, health potions, and a stairway down to the next level.
+                   Reach the stairs on Floor 5 to escape.</p>
+                <p>Every floor is generated deterministically from a seed plus
+                   the floor number using a hand-rolled hash function, so the
+                   same dungeon can be reproduced exactly without pulling in the
+                   <code>random</code> package. Walls, gold, and potions are
+                   placed by hashing each (x, y, floor) triple and checking
+                   modular conditions, so the layout looks random but stays
+                   consistent across reloads.</p>
+                <p>Combat is turn-based: walking into a monster attacks it, and
+                   the monster strikes back if it survives. Every three kills
+                   the player levels up — attack goes up, max HP goes up, and
+                   they heal. Monster types and stats scale per floor, so by
+                   the time you face the dragons and demons on Floor 5 you need
+                   to have leveled up earlier.</p>
+                <p>The whole game state — seed, position, HP, ATK, gold, level,
+                   kills, the current map, and every living monster — is
+                   serialized to a single text file between requests, which
+                   lets the portfolio terminal play a multi-turn game across
+                   stateless HTTP calls.</p>
+<pre>-- Move the player. If a monster blocks the way, fight it.
+movePlayer :: Dir -> Game -> (Game, String)
+movePlayer dir game =
+  let (dx, dy) = dirDelta dir
+      nx = gPX game + dx
+      ny = gPY game + dy
+  in case monsterAt (gMonsters game) nx ny of
+       Just m  -> combat   game m
+       Nothing -> enterCell game nx ny</pre>
+                <p>Demonstrates: state encoding/decoding, pure procedural
+                   generation, algebraic data types for tiles and directions,
+                   and writing a non-trivial program in Haskell with zero
+                   third-party dependencies.</p>
+                <a href="https://github.com/NotJaay" target="_blank" class="btn">↗ github</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3 — MiniLang Compiler  (backend/projects/compiler) -->
         <div class="project-card" data-project="compiler">
           <div class="project-header" onclick="toggle(this)">
             <div>
@@ -172,51 +282,72 @@
             </div>
             <div class="toggle-label"><span class="arrow">▶</span> run</div>
           </div>
+
           <div class="runner">
             <div class="tabs">
               <div class="tab active" onclick="switchTab(this, 'run')">▷ run</div>
               <div class="tab" onclick="switchTab(this, 'source')">{ } source</div>
               <div class="tab" onclick="switchTab(this, 'readme')">readme</div>
             </div>
+
             <div class="panel active" data-panel="run">
               <div class="terminal">
-                <div class="t-out"><span class="t-green">MiniLang v1.0</span>
+                <div class="t-out">
+                  <span class="t-green">MiniLang v1.0</span>
                   <span class="t-dim">Try: let x = 5 in x * x</span>
-                  <span class="t-dim">Supports: let, if/then/else, arithmetic</span>
+                  <span class="t-dim">Supports: let, if/then/else, lambdas, arithmetic</span>
                 </div>
                 <div class="t-input">
-                  <span class="t-prompt">λ</span>
-                  <input type="text" placeholder="let x = 10 in x + x" onkeydown="if(event.key==='Enter') run(this)">
+                  <span class="t-prompt"><img src="./backend/projects/ems.png" width="16" height="16" alt="prompt" style="margin-top:5px;"></span>
+                  <input type="text" placeholder="let x = 10 in x + x" style="font-size:12px; margin-top:-2.5px;" onkeydown="if(event.key==='Enter') run(this)">
                   <button onclick="run(this)">run ↵</button>
                 </div>
               </div>
             </div>
+
             <div class="panel" data-panel="source">
               <div class="code-viewer">
                 <div class="src-filelist"><span class="t-dim">click to load</span></div>
                 <pre class="src-code">// select a file to view</pre>
               </div>
             </div>
+
             <div class="panel" data-panel="readme">
               <div class="info">
-                <p>A complete compiler pipeline for MiniLang, a small functional language
-                   with Hindley-Milner type inference, written in Haskell using Parsec.</p>
-                <pre>let fact = \n -> if n == 0 then 1 else n * fact (n - 1) in fact 10</pre>
+                <p>A complete compiler pipeline for MiniLang, a small ML-style
+                   functional language with first-class functions, lexical
+                   scoping, and Hindley-Milner type inference. The compiler
+                   walks the classic four-phase pipeline: lexer produces
+                   tokens, parser builds an AST, the type checker infers and
+                   verifies every expression's type before any code runs, and
+                   the evaluator interprets the typed AST.</p>
+                <p>Built from scratch in Haskell using Parsec for parsing.
+                   Supports <code>let</code> bindings, <code>if/then/else</code>,
+                   anonymous functions (<code>\x -&gt; ...</code>), function
+                   application, integer arithmetic, and recursive definitions.
+                   Type errors are caught and reported before evaluation, so a
+                   program like <code>1 + true</code> never gets the chance to
+                   run.</p>
+<pre>let fact = \n -> if n == 0 then 1
+                 else n * fact (n - 1)
+in fact 10
+-- => 3628800 : Int</pre>
+                <p>Originally built for CMSC 430 (Design of Programming
+                   Languages) at UMD. Demonstrates compiler construction,
+                   parser combinators, type inference algorithms, and AST
+                   interpretation in a functional language.</p>
                 <a href="https://github.com/NotJaay/minilang" target="_blank" class="btn">↗ github</a>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- ════════════════════════════════════════════
-             PROJECT 3 — SCHEME
-             data-project="scheme" → backend/projects/scheme/
-             ════════════════════════════════════════════ -->
+        <!-- Project 4 — Iniquity+ Interpreter  (backend/projects/scheme) -->
         <div class="project-card" data-project="scheme">
           <div class="project-header" onclick="toggle(this)">
             <div>
               <div class="project-title">Iniquity+ Interpreter</div>
-              <div class="project-sub">Compiled language with closures, case-lambda, and rich types</div>
+              <div class="project-sub">Compiled Scheme dialect with closures, case-lambda, and rich types</div>
               <div class="tags">
                 <span class="tag racket">Racket</span>
                 <span class="tag">Compilers</span>
@@ -225,73 +356,96 @@
             </div>
             <div class="toggle-label"><span class="arrow">▶</span> run</div>
           </div>
+
           <div class="runner">
             <div class="tabs">
               <div class="tab active" onclick="switchTab(this, 'run')">▷ run</div>
               <div class="tab" onclick="switchTab(this, 'source')">{ } source</div>
               <div class="tab" onclick="switchTab(this, 'readme')">readme</div>
             </div>
+
             <div class="panel active" data-panel="run">
               <div class="terminal">
-
-                <div class="t-out"><span class="t-blue">Iniquity+ v1.0</span>
+                <div class="t-out">
+                  <span class="t-blue">Iniquity+ v1.0</span>
                   <span class="t-dim">Try: (define (fact n) (if (= n 0) 1 (* n (fact (- n 1)))))</span>
-                  <span class="t-dim">(fact 10)</span>
+                  <span class="t-dim">Then: (fact 10)</span>
                 </div>
-
                 <div class="t-input">
-                  <span class="t-prompt">⟩</span>
-                  <input type="text" placeholder="(+ 1 2)" onkeydown="if(event.key==='Enter') run(this)">
+                  <span class="t-prompt"><img src="./backend/projects/Rinnegan.PNG" width="16" height="16" alt="prompt" style="margin-top:5px;"></span>
+                  <input type="text" placeholder="(+ 1 2)" style="font-size:12px; margin-top:-2.5px;" onkeydown="if(event.key==='Enter') run(this)">
                   <button onclick="run(this)">run ↵</button>
                 </div>
-
               </div>
             </div>
+
             <div class="panel" data-panel="source">
               <div class="code-viewer">
                 <div class="src-filelist"><span class="t-dim">click to load</span></div>
                 <pre class="src-code">// select a file to view</pre>
               </div>
             </div>
+
             <div class="panel" data-panel="readme">
               <div class="info">
-                <p>Iniquity+ is a compiled, Scheme-like language implemented in Racket.
-                   Supports variadic functions via case-lambda, rest arguments, and apply.</p>
-                <p style="margin-top:10px"><em>Source is private — try the live interpreter above.</em></p>
+                <p>Iniquity+ is a Scheme-like programming language implemented
+                   in Racket. It supports first-class functions, lexical
+                   closures, variadic functions via <code>case-lambda</code>,
+                   rest arguments, <code>apply</code>, and a richer type system
+                   than the original Iniquity dialect from Marc-André Langlois's
+                   compilers course.</p>
+                <p>Built incrementally over a semester as part of CMSC 430 at
+                   UMD, starting from a tiny arithmetic-only language and
+                   growing through let bindings, conditionals, functions,
+                   closures, vectors, and pattern-matched lambdas. The
+                   interpreter is written in Racket and demonstrates how
+                   traditional functional language features can be implemented
+                   from the ground up.</p>
+<pre>(define (fact n)
+  (if (= n 0)
+      1
+      (* n (fact (- n 1)))))
+
+(fact 10)
+;; => 3628800</pre>
+                <p style="margin-top:10px"><em>Source for this one is private —
+                   try the live interpreter above.</em></p>
               </div>
             </div>
           </div>
         </div>
 
 
-        <!-- ════════════════════════════════════════════
-             PROJECT 4 — EMPTY SLOT (copy this to add more)
-             data-project="project4" → backend/projects/project4/
-             ════════════════════════════════════════════ -->
+        <!-- Project 5 — placeholder slot for a cybersecurity project -->
         <div class="project-card" data-project="project4">
           <div class="project-header" onclick="toggle(this)">
             <div>
-              <div class="project-title">Project 4</div>
-              <div class="project-sub">Add Description to HTML</div>
+              <div class="project-title">Cybersecurity Project (coming soon)</div>
+              <div class="project-sub">Add description in HTML once the project is ready</div>
               <div class="tags">
                 <span class="tag python">Python</span>
-                <span class="tag">Game</span>
+                <span class="tag">Security</span>
               </div>
             </div>
             <div class="toggle-label"><span class="arrow">▶</span> run</div>
           </div>
+
           <div class="runner">
             <div class="tabs">
               <div class="tab active" onclick="switchTab(this, 'run')">▷ run</div>
               <div class="tab" onclick="switchTab(this, 'source')">{ } source</div>
               <div class="tab" onclick="switchTab(this, 'readme')">readme</div>
             </div>
+
             <div class="panel active" data-panel="run">
               <div class="terminal">
-                <div class="t-out"><span class="t-green">Project 4 — coming soon</span></div>
+                <div class="t-out">
+                  <span class="t-green">Project — coming soon</span>
+                  <span class="t-dim">Placeholder slot for a future cybersecurity project.</span>
+                </div>
                 <div class="t-input">
-                  <span class="t-prompt">$</span>
-                  <input type="text" placeholder="type here..." onkeydown="if(event.key==='Enter') run(this)">
+                  <span class="t-prompt"><img src="./backend/projects/Tsukuyomi99.PNG" width="16" height="16" alt="prompt" style="margin-top:5px;"></span>
+                  <input type="text" placeholder="type here..." style="font-size:12px; margin-top:-2.5px;" onkeydown="if(event.key==='Enter') run(this)">
                   <button onclick="run(this)">run ↵</button>
                 </div>
               </div>
@@ -306,24 +460,26 @@
 
             <div class="panel" data-panel="readme">
               <div class="info">
-                <p>Describe your project here.</p>
-                <pre># your code snippet def example(): return "replace me"</pre>
+                <p>Reserved slot for an upcoming cybersecurity project — likely
+                   something around applied cryptography, network security, or a
+                   small CTF-style tool. Description and runnable demo will go
+                   here once the project is ready.</p>
                 <a href="https://github.com/NotJaay" target="_blank" class="btn">↗ github</a>
               </div>
             </div>
           </div>
         </div>
 
-
-        <!-- ════════════════════════════════════════════
-             PROJECT 5 — EMPTY SLOT
-             ════════════════════════════════════════════ -->
+        <!-- Project 6 — placeholder slot for a systems / crypto-finance project -->
         <div class="project-card" data-project="project5">
           <div class="project-header" onclick="toggle(this)">
             <div>
-              <div class="project-title">Project 5</div>
-              <div class="project-sub">Add Description to HTML</div>
-              <div class="tags"><span class="tag c">C</span><span class="tag">Systems</span></div>
+              <div class="project-title">Systems / Crypto-Finance Project (coming soon)</div>
+              <div class="project-sub">Add description in HTML once the project is ready</div>
+              <div class="tags">
+                <span class="tag c">C</span>
+                <span class="tag">Systems</span>
+              </div>
             </div>
             <div class="toggle-label"><span class="arrow">▶</span> run</div>
           </div>
@@ -337,7 +493,10 @@
 
             <div class="panel active" data-panel="run">
               <div class="terminal">
-                <div class="t-out"><span class="t-green">Project 5 — coming soon</span></div>
+                <div class="t-out">
+                  <span class="t-green">Project — coming soon</span>
+                  <span class="t-dim">Placeholder slot for a future systems or crypto-finance project.</span>
+                </div>
                 <div class="t-input">
                   <span class="t-prompt">$</span>
                   <input type="text" placeholder="type here..." onkeydown="if(event.key==='Enter') run(this)">
@@ -355,12 +514,14 @@
 
             <div class="panel" data-panel="readme">
               <div class="info">
-                <p>Description here.</p>
-                <pre>// code snippet</pre>
+                <p>Reserved slot for an upcoming low-level systems project or
+                   something in the crypto-finance space — possibly an order
+                   book simulator, a small market-data tool, or a tiny
+                   blockchain/consensus toy. Description and runnable demo
+                   will go here once the project is ready.</p>
                 <a href="https://github.com/NotJaay" target="_blank" class="btn">↗ github</a>
               </div>
             </div>
-
           </div>
         </div>
 
@@ -369,7 +530,7 @@
       </div>
     </section>
 
-    <!-- ====== ABOUT ====== -->
+    <!-- ABOUT -->
     <section class="section" id="about">
       <div class="section-header">
         <span class="dim">$ cat about.txt</span>
@@ -380,7 +541,7 @@
         <div><div class="about-label">github</div><div class="about-val"><a href="https://github.com/NotJaay" target="_blank">github.com/NotJaay</a></div></div>
         <div><div class="about-label">email</div><div class="about-val"><a href="/cdn-cgi/l/email-protection#234d4c5749425a474650424a63444e424a4f0d404c4e">HERE!</a></div></div>
         <div><div class="about-label">school</div><div class="about-val">University of Maryland, College Park</div></div>
-        <div><div class="about-label">interests</div><div class="about-val">PLT · Compilers · Systems · Functional Programming</div></div>
+        <div><div class="about-label">interests</div><div class="about-val">PLT · Compilers · Systems · Functional Programming · Cybersecurity · Applied Cryptography · Crypto Finance</div></div>
         <div><div class="about-label">resume</div><div class="about-val"><a href="resume.pdf">resume.pdf</a></div></div>
       </div>
     </section>

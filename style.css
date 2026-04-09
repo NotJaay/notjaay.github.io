@@ -1,12 +1,10 @@
-/* ============================================================
-   STYLE.CSS — Jay Desai Portfolio
-   
+/* 
    Organized: variables → base → nav → hero → buttons →
    sections → skills → projects → terminal → code viewer →
    info → about → footer → mobile
-   ============================================================ */
+*/
    
-/* ── VARIABLES ─────────────────────────────────────────────── */
+/* VARIABLES */
 :root {
   --bg:      #0d0d0d;
   --bg2:     #141414;
@@ -23,8 +21,7 @@
   --sans: 'IBM Plex Sans', sans-serif;
 }
 
-
-/*  BASE  */
+/* BASE */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -38,7 +35,7 @@ a:hover { text-decoration: underline; }
 .dim { color: var(--dim); }
 
 
-/*  NAV  */
+/* NAV */
 nav {
   position: sticky; top: 0; z-index: 100; height: 52px;
   background: var(--bg); border-bottom: 1px solid var(--border);
@@ -53,8 +50,7 @@ nav {
 }
 .nav-links a:hover { color: var(--accent); text-decoration: none; }
 
-
-/*  HERO  */
+/* HERO */
 .hero { padding: 5rem 0 4rem; border-bottom: 1px solid var(--border); }
 .prompt { font-size: 12px; color: var(--dim); margin-bottom: 0.5rem; }
 
@@ -81,8 +77,7 @@ h1 {
 }
 .hero-links { display: flex; gap: 1rem; flex-wrap: wrap; }
 
-
-/*  BUTTONS  */
+/* BUTTONS */
 .btn {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 6px 14px; border: 1px solid var(--border2); border-radius: 3px;
@@ -92,7 +87,6 @@ h1 {
 .btn:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 .btn.green { border-color: var(--accent); color: var(--accent); }
 
-
 /*  SECTIONS  */
 .section { padding: 4rem 0; border-bottom: 1px solid var(--border); }
 .section-header {
@@ -101,8 +95,7 @@ h1 {
 }
 .line { flex: 1; height: 1px; background: var(--border); }
 
-
-/*  SKILLS GRID  */
+/* SKILLS GRID */
 .skills-grid {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 1px; background: var(--border);
@@ -115,8 +108,7 @@ h1 {
 .skill strong { font-size: 13px; color: var(--text); font-weight: 500; }
 .skill span { font-size: 10px; color: var(--dim); }
 
-
-/*  PROJECT CARDS  */
+/* PROJECT CARDS */
 .projects-list { display: flex; flex-direction: column; gap: 12px; }
 
 .project-card {
@@ -180,16 +172,19 @@ h1 {
 .panel { display: none; padding: 18px 22px; background: var(--bg); }
 .panel.active { display: block; }
 
-
-/*  TERMINAL  */
+/* TERMINAL */
 .terminal {
   background: #000; border: 1px solid var(--border);
   border-radius: 3px; overflow: hidden; font-size: 13px;
 }
 .t-out {
-  padding: 12px 16px; min-height: 150px; max-height: 260px;
-  overflow-y: auto; color: #d4d4d4; line-height: 1.6; white-space: pre-wrap;
+  padding: 12px 16px; min-height: 150px; max-height: 600px;
+  overflow-y: auto; color: #d4d4d4; line-height: 1.6;
 }
+/* Welcome spans inside .t-out are block-level so HTML indentation doesn't matter */
+.t-out > span { display: block; }
+/* Dynamically-printed output lines preserve whitespace (for ASCII art, game boards) */
+.t-line { display: block; white-space: pre-wrap; }
 .t-input {
   display: flex; align-items: center; gap: 8px;
   padding: 8px 16px; border-top: 1px solid #1a1a1a;
@@ -214,7 +209,7 @@ h1 {
 .t-dim    { color: #444; }
 
 
-/*  CODE VIEWER (source tab)  */
+/* CODE VIEWER (source tab) */
 .code-viewer {
   background: #000; border: 1px solid var(--border);
   border-radius: 3px; overflow: hidden;
@@ -238,7 +233,7 @@ h1 {
 }
 
 
-/*  INFO / README PANEL  */
+/* INFO / README PANEL */
 .info {
   font-family: var(--sans); font-size: 13px;
   color: var(--text2); line-height: 1.8;
@@ -251,7 +246,7 @@ h1 {
 .info a { margin-top: 12px; display: inline-flex; }
 
 
-/*  ABOUT GRID  */
+/* ABOUT GRID */
 .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.8rem; }
 .about-label {
   font-size: 11px; color: var(--dim);
@@ -259,12 +254,10 @@ h1 {
 }
 .about-val { font-size: 13px; color: var(--text2); }
 
-
-/*  FOOTER  */
+/* FOOTER */
 footer { padding: 2rem 0; text-align: center; font-size: 11px; color: var(--dim); }
 
-
-/*  MOBILE  */
+/* MOBILE */
 @media (max-width: 600px) {
   nav { padding: 0 1rem; }
   .nav-links { gap: 1rem; }

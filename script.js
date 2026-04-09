@@ -1,28 +1,24 @@
-/* ============================================================
-   SCRIPT.JS — Jay Desai Portfolio
-   
+/* 
    This file does 3 things:
      1. Toggle cards open/closed and switch tabs
      2. Send user input to the backend and print the result
      3. Load source code files from the backend
    
    All code runs on the backend.
-   ============================================================ */
+ */
 
-/* ─── STEP 1: Set your backend URL ───────────────────────────
-   
+/* STEP 1: Setup backend URL
    Local development:  const BACKEND_URL = 'http://localhost:8080';
    After deploying:    const BACKEND_URL = 'https://your-app.onrender.com';
-   Not set up yet:     const BACKEND_URL = null;
-   
-   ──────────────────────────────────────────────────────────── */
+ */
+
+//const BACKEND_URL = 'http://localhost:8080';
 const BACKEND_URL = 'https://portfolio-api-ikdk.onrender.com';
 
-
-/* ─── HELPER: find the project card and its ID ───────────────
+/*  HELPER: find the project card and its ID 
    Every project card has data-project="poker" (or compiler, etc.)
    This walks up the DOM from any element inside the card to find it.
-   ──────────────────────────────────────────────────────────── */
+ */
 function getCard(el) {
   return el.closest('.project-card');
 }
@@ -31,19 +27,18 @@ function getProjectId(el) {
   return getCard(el).dataset.project;
 }
 
-
-/* ─── TOGGLE: open/close a project card ──────────────────────
+/* TOGGLE: open/close a project card 
    Called when you click the project header.
-   ──────────────────────────────────────────────────────────── */
+*/
 function toggle(headerEl) {
   getCard(headerEl).classList.toggle('open');
 }
 
 
-/* ─── SWITCH TAB: show run / source / readme panel ───────────
+/* SWITCH TAB: show run / source / readme panel 
    Called when you click a tab. Hides all panels, shows the one
    matching the panelName. Also loads source files if needed.
-   ──────────────────────────────────────────────────────────── */
+*/
 function switchTab(tabEl, panelName) {
   var card = getCard(tabEl);
 
@@ -62,29 +57,34 @@ function switchTab(tabEl, panelName) {
 }
 
 
-/* ─── ESCAPE HTML: prevents <script> injection in output ───── */
+/* ESCAPE HTML: prevents <script> injection in output */
 function esc(s) {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-
-/* ─── PRINT: append a line to a terminal output ──────────────
+/* PRINT: append a line to a terminal output 
    outEl = the .t-out div inside a terminal
-   ──────────────────────────────────────────────────────────── */
+   Uses real DOM append (not innerHTML +=) so existing content
+   isn't destroyed and recreated each time.
+ */
 function print(outEl, html) {
-  outEl.innerHTML += html + '\n';
+  var line = document.createElement('div');
+  line.className = 't-line';
+  line.innerHTML = html;
+  outEl.appendChild(line);
   outEl.scrollTop = outEl.scrollHeight;
+  return line; // so callers can remove it later (for "running...")
 }
 
 
-/* ─── RUN: send input to the backend, print the result ───────
+/*  RUN: send input to the backend, print the result 
    Called when you press Enter or click "run ↵" in a terminal.
    
    How it works:
      1. Finds the project ID from data-project on the card
      2. POSTs to BACKEND_URL/api/run/{id} with the input
      3. Prints the response in the terminal
-   ──────────────────────────────────────────────────────────── */
+*/
 async function run(el) {
   // Find the terminal elements
   var card   = getCard(el);
@@ -96,6 +96,13 @@ async function run(el) {
   // Don't run if empty
   if (!text) return;
 
+  // Local "clear" command — wipes the terminal but keeps the game running
+  if (text.toLowerCase() === 'clear') {
+    output.innerHTML = '';
+    input.value = '';
+    return;
+  }
+
   // Show what the user typed
   print(output, '<span class="t-dim">$ ' + esc(text) + '</span>');
   input.value = '';
@@ -106,8 +113,8 @@ async function run(el) {
     return;
   }
 
-  // Show "running..." while we wait
-  print(output, '<span class="t-dim">  running...</span>');
+  // Show "running..." while we wait — keep a reference so we can remove it
+  var runningLine = print(output, '<span class="t-dim">  running...</span>');
 
   try {
     // Send the input to the backend
@@ -119,7 +126,7 @@ async function run(el) {
     var data = await res.json();
 
     // Remove the "running..." line
-    output.innerHTML = output.innerHTML.replace(/<span class="t-dim">  running\.\.\.<\/span>\n?/, '');
+    if (runningLine && runningLine.parentNode) runningLine.parentNode.removeChild(runningLine);
 
     // Print the result (green for output, red for errors)
     if (data.error) {
@@ -129,7 +136,7 @@ async function run(el) {
     }
   } catch (err) {
     // Remove the "running..." line
-    output.innerHTML = output.innerHTML.replace(/<span class="t-dim">  running\.\.\.<\/span>\n?/, '');
+    if (runningLine && runningLine.parentNode) runningLine.parentNode.removeChild(runningLine);
 
     // This usually means the server is asleep (Render free tier cold start)
     print(output, '<span class="t-yellow">⏳ Server waking up (~30s). Try again.</span>');
@@ -137,10 +144,10 @@ async function run(el) {
 }
 
 
-/* ─── LOAD SOURCE FILES: fetch file list from backend ────────
+/* LOAD SOURCE FILES: fetch file list from backend
    Called when you click the "{ } source" tab.
    Fetches the list of files, then auto-loads the first one.
-   ──────────────────────────────────────────────────────────── */
+*/
 async function loadSourceFiles(card) {
   var listEl = card.querySelector('.src-filelist');
   var codeEl = card.querySelector('.src-code');
@@ -178,9 +185,9 @@ async function loadSourceFiles(card) {
 }
 
 
-/* ─── VIEW FILE: fetch and display one source file ───────────
-   Called when you click a filename in the source tab.
-   ──────────────────────────────────────────────────────────── */
+/* VIEW FILE: fetch and display one source fil   
+    Called when you click a filename in the source tab.
+*/
 async function viewFile(event, linkEl) {
   if (event) event.preventDefault();
 
