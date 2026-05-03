@@ -18,7 +18,7 @@ const BACKEND_URL = (typeof window !== 'undefined' && window.BACKEND_OVERRIDE)
       window.location.hostname === 'localhost' ||
       window.location.hostname === '127.0.0.1'
       ? 'http://localhost:8080'
-      : 'https://portfolio-api-ar69.onrender.com');
+      : 'https://portfolio-api-7g0m.onrender.com');
 
 /*  HELPER: find the project card and its ID 
    Every project card has data-project="poker" (or compiler, etc.)

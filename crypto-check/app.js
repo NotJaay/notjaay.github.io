@@ -6,7 +6,7 @@ var BACKEND = backendParam || ((location.protocol === 'file:' ||
     location.hostname === 'localhost' ||
     location.hostname === '127.0.0.1')
   ? 'http://localhost:8080'
-  : 'https://portfolio-api-ar69.onrender.com');
+  : 'https://portfolio-api-7g0m.onrender.com');
 
 /**
  * @typedef {'in'|'out'} CryptoTxType
