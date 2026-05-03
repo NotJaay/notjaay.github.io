@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WalletTracker</title>
+  <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">WalletTracker</div>
+    <div class="sidebar-section-label">My Wallets</div>
+    <div id="wallet-list"></div>
+    <button class="add-wallet-btn" onclick="showAddWallet()">+ Add Wallet</button>
+    <div class="sidebar-total" id="sidebar-total" style="display:none">
+      <div class="st-label">All Wallets</div>
+      <div class="st-val" id="st-total-val">$0</div>
+      <div class="st-pnl" id="st-total-pnl"></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-title" id="topbar-title">WalletTracker</div>
+      <div class="chain-pills">
+        <span class="cpill">BTC</span><span class="cpill">ETH</span>
+        <span class="cpill">SOL</span><span class="cpill">ADA</span>
+      </div>
+      <div class="lookup-wrap">
+        <input id="addr-input" class="lookup-input" type="text" placeholder="Paste any wallet address…">
+<input id="wallet-name-input" class="lookup-input name-input" type="text" placeholder="Name (optional)">
+        <button class="lookup-btn" onclick="handleLookup()">Look up</button>
+      </div>
+    </div>
+
+    <div class="content" id="content">
+      <div class="empty-state" id="empty-state">
+        <div class="empty-title">WalletTracker</div>
+        <div class="empty-sub">Audit wallet cash flow, cost basis, holdings, and full transaction history</div>
+        <div class="empty-chains">
+          <span class="empty-chain"><span class="cdot" style="background:#f59e0b"></span>BTC</span>
+          <span class="empty-chain"><span class="cdot" style="background:#6c8ef7"></span>ETH</span>
+          <span class="empty-chain"><span class="cdot" style="background:#a78bfa"></span>SOL</span>
+          <span class="empty-chain"><span class="cdot" style="background:#22d3ee"></span>ADA</span>
+        </div>
+        <div class="empty-sub" style="margin-top:14px;font-size:11px">No account or wallet history is saved; public-chain responses are briefly cached in memory</div>
+      </div>
+      <div class="loading-state" id="loading-state" style="display:none">
+        <div class="spinner"></div>
+        <div class="loading-msg" id="loading-msg">Fetching wallet history…</div>
+        <div class="loading-sub">Fetching balances, transfers, and available historical prices</div>
+      </div>
+      <div class="error-state" id="error-state" style="display:none">
+        <div class="error-icon">⚠</div>
+        <div class="error-msg" id="error-msg"></div>
+      </div>
+      <div id="dashboard" style="display:none">
+        <div id="demo-banner" class="demo-banner">
+          <span class="demo-banner-dot"></span>
+          <span>You're viewing a <strong>demo wallet</strong> — paste any real address above to analyze your own portfolio</span>
+          <span class="demo-banner-chains">BTC · ETH · SOL · ADA</span>
+        </div>
+        <div id="data-warnings" class="data-warnings" style="display:none"></div>
+        <div class="stat-strip" id="stat-strip"></div>
+        <div class="body-grid">
+          <div class="left-col">
+            <div class="panel chart-panel" id="chart-panel" style="display:none">
+              <div class="panel-header">
+                <div class="panel-title">Wallet Value vs Net Invested</div>
+                <div class="panel-actions">
+                  <button class="pill-sm" id="chart-range-1y" onclick="setChartRange('1y')">1Y</button>
+                  <button class="pill-sm active-pill" id="chart-range-all" onclick="setChartRange('all')">All</button>
+                </div>
+              </div>
+              <div class="chart-canvas-wrap">
+                <canvas id="portfolio-chart" height="140"></canvas>
+              </div>
+            </div>
+            <div class="panel" id="holdings-panel">
+              <div class="panel-header">
+                <div class="panel-title">Holdings</div>
+                <div class="panel-actions">
+                  <button class="pill-sm" onclick="exportHoldingsCSV()">Export CSV</button>
+                </div>
+              </div>
+              <div id="holdings-body"></div>
+            </div>
+            <div class="panel" style="margin-top:14px">
+              <div class="panel-header"><div class="panel-title">Capital Flow</div></div>
+              <div id="flow-body"></div>
+            </div>
+          </div>
+          <div class="right-col">
+            <div class="panel">
+              <div class="panel-header">
+                <div class="panel-title" id="pnl-title">P&amp;L Summary</div>
+                <button class="pill-sm" id="pnl-toggle" onclick="togglePnlMode()">FIFO ▾</button>
+              </div>
+              <div id="pnl-body"></div>
+            </div>
+            <div class="panel" style="margin-top:14px">
+              <div class="panel-header"><div class="panel-title">Cost Basis Lots (FIFO)</div></div>
+              <div id="lots-body"></div>
+            </div>
+            <div class="panel" style="margin-top:14px">
+              <div class="panel-header">
+                <div class="panel-title">Transaction History</div>
+                <div class="panel-actions">
+                  <button class="pill-sm" onclick="filterTx('all')">All</button>
+                  <button class="pill-sm" onclick="filterTx('in')">Buys</button>
+                  <button class="pill-sm" onclick="filterTx('out')">Sells</button>
+                  <button class="pill-sm" onclick="sortTx('date-desc')">Newest</button>
+                  <button class="pill-sm" onclick="sortTx('value-desc')">Value ↓</button>
+                  <button class="pill-sm" onclick="sortTx('value-asc')">Value ↑</button>
+                  <button class="pill-sm" onclick="exportTxCSV()">CSV</button>
+                </div>
+              </div>
+              <div id="tx-body"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="app.js?v=2"></script>
+</body>
+</html>

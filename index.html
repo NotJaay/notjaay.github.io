@@ -111,10 +111,10 @@
             <div class="panel active" data-panel="run">
               <div class="terminal">
                 <div class="t-out">
-                  <span class="t-green">Haskell Wordle v1.0</span>
-                  <span class="t-dim">Guess the 5-letter word in 6 tries.</span>
-                  <span class="t-dim">✓ correct position   ○ wrong position   · not in word</span>
-                  <span class="t-dim">Commands: any 5-letter word | show | reset | help</span>
+                  <span class="t-green">Haskell Wordle</span>
+                  <span class="t-dim">Coded in Haskell. One daily 5-letter target, six guesses, persistent board state.</span>
+                  <span class="t-dim">After each guess: ✓ correct spot  ○ wrong spot  · not in word.</span>
+                  <span class="t-dim">Type a 5-letter word to guess. Use show for the board, reset for a fresh word, help for rules.</span>
                 </div>
                 <div class="t-input">
                   <span class="t-prompt"><img src="./assets/sharingan.png" width="16" height="16" alt="prompt" style="margin-top:5px;"></span>
@@ -206,9 +206,9 @@ checkGuess target guess = zip guess marks
             <div class="panel active" data-panel="run">
               <div class="terminal">
                 <div class="t-out">
-                  <span class="t-green">Dungeon Crawler v1.0</span>
-                  <span class="t-dim">Navigate 5 floors. Fight monsters. Escape alive.</span>
-                  <span class="t-dim">Commands: n/s/e/w | look | map | stats | reset | help</span>
+                  <span class="t-green">Dungeon Crawler</span>
+                  <span class="t-dim">Coded in Haskell. Navigate 5 floors, fight monsters, and escape alive.</span>
+                  <span class="t-dim">Commands: w/a/s/d | look | map | stats | inventory | reset | help</span>
                 </div>
                 <div class="t-input">
                   <span class="t-prompt"><img src="./assets/mangekyou.GIF" width="16" height="16" alt="prompt" style="margin-top:5px;"></span>
@@ -269,7 +269,194 @@ movePlayer dir game =
           </div>
         </div>
 
-        <!-- Project 3 — MiniLang Compiler  (backend/projects/compiler) -->
+        <!-- Project 3 — Resonance Indicator -->
+        <div class="cj" id="cj">
+          <div class="cj-hdr" onclick="toggleCard()">
+            <div style="flex:1">
+              <div class="cj-title">Resonance Indicator</div>
+              <div class="cj-sub">A composite macro-cycle oscillator built in PineScript v5 for TradingView. Multiple independent signals — each drawn from a different dimension of market behavior — weighted into a single 0–100 Resonance Score. Works on any liquid asset without modification.</div>
+              <div class="cj-tags">
+                <span class="cj-tag" style="border-color:#ff9bd030;color:#ff9bd0">PineScript v5</span>
+                <span class="cj-tag" style="border-color:#a8ff7830;color:#a8ff78">TradingView</span>
+                <span class="cj-tag" style="border-color:#ffd87830;color:#ffd878">Quantitative Finance</span>
+                <span class="cj-tag" style="border-color:#6baaff30;color:#6baaff">Open to Review</span>
+              </div>
+            </div>
+            <div class="cj-arrow">▶</div>
+          </div>
+
+          <!-- RUNNER -->
+          <div class="cj-runner">
+            <div class="cj-tabs">
+              <div class="cj-tab active" id="t-ind"   onclick="showTab('ind')">◈ indicator</div>
+              <div class="cj-tab" id="t-comp"  onclick="showTab('comp')">⊞ components</div>
+              <div class="cj-tab" id="t-res"   onclick="showTab('res')">◉ snapshot</div>
+              <div class="cj-tab" id="t-about" onclick="showTab('about')">⊙ about</div>
+            </div>
+
+            <!-- ═══ INDICATOR ═══ -->
+            <div class="cj-panel active" id="p-ind">
+
+              <!-- Toolbar -->
+              <div class="ind-bar">
+                <div class="asset-row" id="asset-row"></div>
+                <span class="sep">·</span>
+                <div class="tf-row">
+                  <button class="tbt" data-tf="D"  onclick="setTf('D')">D</button>
+                  <button class="tbt" data-tf="5D" onclick="setTf('5D')">5D</button>
+                  <button class="tbt act" data-tf="1W" onclick="setTf('1W')">1W</button>
+                </div>
+                <span class="sep">·</span>
+                <button class="icon-btn" id="edit-tog" onclick="toggleEdit()">⚙ Edit</button>
+                <button class="icon-btn" onclick="replayAnim()">↺ Replay</button>
+                <button class="icon-btn" id="cj-resetvp" onclick="resetViewport()" style="display:none;color:#6baaff;border-color:#6baaff44">↺ Reset</button>
+                <span id="cj-live" style="font-size:9px;color:#444;border:1px solid #1c1c2c;padding:2px 7px;border-radius:2px;letter-spacing:.06em">~ SIMULATED</span>
+                <a class="try-link" href="https://www.tradingview.com" target="_blank">▶ Try on TradingView</a>
+              </div>
+
+              <!-- Edit panel -->
+              <div class="edit-panel" id="edit-panel">
+                <div class="edit-sect">
+                  <h4>Overlays</h4>
+                  <div class="edit-row"><input type="checkbox" class="edit-chk" id="tog-zones" checked onchange="redraw()"><span class="edit-name">Zone backgrounds</span></div>
+                  <div class="edit-row"><input type="checkbox" class="edit-chk" id="tog-markers" checked onchange="redraw()"><span class="edit-name">Signal markers (▲▼◆)</span></div>
+                  <div class="edit-row"><input type="checkbox" class="edit-chk" id="tog-vol" checked onchange="redraw()"><span class="edit-name">Volume bars</span></div>
+                  <div class="edit-row"><input type="checkbox" class="edit-chk" id="tog-comp-lines" checked onchange="redraw()"><span class="edit-name">Secondary lines</span></div>
+                  <div class="edit-row"><input type="checkbox" class="edit-chk" id="tog-macd-hist" onchange="redraw()"><span class="edit-name" style="color:#2196F3">MACD histogram</span></div>
+                  <div class="edit-row"><input type="checkbox" class="edit-chk" id="tog-mas" checked onchange="redraw()"><span class="edit-name">Moving averages</span></div>
+                </div>
+                <div class="edit-sect">
+                  <h4>Signal Lines</h4>
+                  <div id="comp-toggles"></div>
+                </div>
+              </div>
+
+              <!-- Price chart -->
+              <div class="chart-wrap" id="px-wrap" style="position:relative;cursor:crosshair">
+                <canvas class="px-canvas" id="px-c"></canvas>
+                <div class="cj-chtip" id="px-tip" style="display:none"></div>
+              </div>
+
+              <!-- Oscillator chart -->
+              <div class="chart-wrap" id="osc-wrap" style="position:relative;cursor:crosshair">
+                <canvas class="osc-canvas" id="osc-c"></canvas>
+                <div class="cj-chtip" id="osc-tip" style="display:none"></div>
+              </div>
+
+              <!-- Date axis -->
+              <div class="date-axis" id="date-axis"></div>
+
+              <!-- Legend -->
+              <div class="cj-legend">
+                <div class="leg"><div class="leg-ln" style="width:20px;height:2.5px;background:#e2e8f0"></div><span>Resonance Score</span></div>
+                <div class="leg"><div class="leg-ln" style="width:20px;height:1px;background:#00BCD4;margin-top:1px"></div><span>Ref 80/100</span></div>
+                <div class="leg"><div class="leg-ln" style="width:20px;height:1px;background:#9C27B0;margin-top:1px"></div><span>Ref 0/20</span></div>
+                <div class="leg"><span class="leg-sym" style="color:#22C55E">▲</span><span>Buy zone entry</span></div>
+                <div class="leg"><span class="leg-sym" style="color:#4ADE80">◆</span><span>Lifetime buy (&lt;10)</span></div>
+                <div class="leg"><span class="leg-sym" style="color:#EF4444">▼</span><span>Sell zone entry</span></div>
+                <div class="leg"><span class="leg-sym" style="color:#EC4899">◆</span><span>Lifetime sell (&gt;90)</span></div>
+                <div class="leg"><div class="leg-dot" style="background:#26A69A"></div><span>Up candle</span></div>
+                <div class="leg"><div class="leg-dot" style="background:#EF5350"></div><span>Down candle</span></div>
+              </div>
+
+              <!-- Score strip -->
+              <div class="score-strip">
+                <div>
+                  <div class="s-big" id="s-val">—</div>
+                  <div class="s-meta">Resonance Score · <span id="s-asset">SPY</span> · <span id="s-tf">1W</span></div>
+                </div>
+                <div class="s-dir" id="s-dir"></div>
+                <div class="s-zone" id="s-zone"></div>
+                <div class="s-desc" id="s-desc"></div>
+              </div>
+
+              <!-- Zone explanations -->
+              <div class="zone-strip">
+                <div class="zs-cell">
+                  <div class="zs-range" style="color:#4ADE80">0 – 10</div>
+                  <div class="zs-name" style="color:#4ADE8099">Lifetime Buy</div>
+                  <div class="zs-desc">Once-per-cycle extreme undervaluation. 8+ signals simultaneously at historic lows.</div>
+                </div>
+                <div class="zs-cell">
+                  <div class="zs-range" style="color:#22C55E">10 – 20</div>
+                  <div class="zs-name" style="color:#22C55E99">Buy Zone</div>
+                  <div class="zs-desc">Significant undervaluation. Multiple signals in extreme territory simultaneously.</div>
+                </div>
+                <div class="zs-cell">
+                  <div class="zs-range" style="color:#555">20 – 80</div>
+                  <div class="zs-name" style="color:#33333399">Neutral</div>
+                  <div class="zs-desc">No extreme reading. Signals are mixed or moderate. Not an actionable zone.</div>
+                </div>
+                <div class="zs-cell">
+                  <div class="zs-range" style="color:#FB923C">80 – 90</div>
+                  <div class="zs-name" style="color:#FB923C99">Sell Zone</div>
+                  <div class="zs-desc">Significant overvaluation. Multiple signals in overbought territory simultaneously.</div>
+                </div>
+                <div class="zs-cell">
+                  <div class="zs-range" style="color:#EC4899">90 – 100</div>
+                  <div class="zs-name" style="color:#EC489999">Lifetime Sell</div>
+                  <div class="zs-desc">Peak-cycle extreme overvaluation. Historically coincides with generational tops.</div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- ═══ COMPONENTS ═══ -->
+            <div class="cj-panel" id="p-comp">
+              <div class="comp-hdr">6 core signals — the primary structural drivers of the Resonance composite</div>
+              <div class="comp-grid" id="comp-grid"></div>
+            </div>
+
+            <!-- ═══ SNAPSHOT ═══ -->
+            <div class="cj-panel" id="p-res">
+              <div id="snapshot-root"></div>
+            </div>
+
+            <!-- ═══ ABOUT ═══ -->
+            <div class="cj-panel" id="p-about">
+              <div class="about-wrap">
+                <div class="about-blk">
+                  <h3>What it is</h3>
+                  <p>Resonance is a composite sub-pane oscillator for TradingView, written in PineScript v5. It aggregates <strong>multiple independent technical signals</strong> — each drawn from a different dimension of market behavior — into a single normalized 0–100 score called the Resonance Score.</p>
+                  <p>The signals draw from fundamentally different dimensions of market behavior — momentum, trend structure, volume, volatility, and divergence. Each is independently normalized against the asset's own history — then combined via a weighted composite with a confluence multiplier.</p>
+                  <p>A score near <span class="hl">0–20</span> indicates simultaneous extreme undervaluation across multiple dimensions. A score near <span class="sl">80–100</span> indicates simultaneous extreme overvaluation. The composite is meaningfully strongest at the extremes.</p>
+                </div>
+                <div class="about-blk">
+                  <h3>The confluence mechanism</h3>
+                  <p>The Resonance Score is not just a weighted average. It includes a <strong>confluence multiplier</strong>: when 3 or more signals simultaneously reach extreme territory, the composite is pushed further toward that extreme — amplifying the signal when agreement is highest.</p>
+                  <p>At 5+ signals in agreement, the boost is 32% toward the extreme. This is why a Resonance Score of 12 is meaningfully different from a score of 18 — both are in the buy zone, but a score of 12 requires most indicators to simultaneously be at historic lows, which is far rarer.</p>
+                  <p>This mechanism is also why the indicator rarely gives false signals at extreme levels. A score of 85 requires <span class="wb">broad consensus across fundamentally different signal types</span>, not just one overextended oscillator.</p>
+                </div>
+                <div class="about-blk">
+                  <h3>Signal architecture</h3>
+                  <p>Resonance draws from six primary structural dimensions: <strong>price momentum</strong>, <strong>trend structure</strong> (MA alignment and deviation from long-term mean), <strong>volume pressure</strong>, <strong>directional momentum</strong>, and <strong>divergence</strong>. Each signal is independently normalized against the asset's own history before entering the composite.</p>
+                  <p>The normalization method differs per signal type — oscillators use raw values, histogram-based signals are normalized against their historical extremes, and structure signals use step or deviation scaling. The composite includes a <strong>confluence multiplier</strong> that amplifies readings when multiple signals simultaneously agree at extremes.</p>
+                  <p>The specific weights, combination logic, and all implementation details are proprietary and kept server-side. Source code is not publicly distributed.</p>
+                </div>
+                <div class="about-blk">
+                  <h3>Self-calibration across assets</h3>
+                  <p>Every component normalizes against the asset's own history — not a fixed scale. RSI deviations are measured relative to that asset's RSI extremes. MA Deviation is normalized against the furthest the asset has ever stretched from its 200 MA.</p>
+                  <p>This means the <span class="wb">same thresholds</span> — buy below 20, sell above 80 — apply to SPY, BTC, GLD, or any liquid asset. The indicator self-calibrates. There's no manual tuning required per asset.</p>
+                  <p>Timeframe recommendation: <strong>Weekly (1W)</strong> for macro positioning, daily for orientation. The weekly view filters short-term noise and focuses on structural cycle extremes. The edge lives on the weekly.</p>
+                  <p>Resonance answers one question: <span class="wb">where are you in the cycle?</span> Not when to trade — where you are. Combined with price context and your own analysis, that question has meaningful value.</p>
+                </div>
+              </div>
+              <div class="pvt-row">
+                <div class="pvt-t">
+                  <strong>⊘ Source code is private</strong>
+                  <span>Open to independent review, audit, and verification of methodology.</span>
+                </div>
+                <a href="mailto:notjaydesai@gmail.com?subject=Resonance%20Review%20Request" class="req-btn">✉ Request Access</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+<script src="resonance-indicator.js?v=5"></script>
+
+
+                <!-- Project 4 — MiniLang Compiler  (backend/projects/compiler) -->
         <div class="project-card" data-project="compiler">
           <div class="project-header" onclick="toggle(this)">
             <div>
@@ -343,7 +530,7 @@ in fact 10
           </div>
         </div>
 
-        <!-- Project 4 — Iniquity+ Interpreter  (backend/projects/scheme) -->
+        <!-- Project 5 — Iniquity+ Interpreter  (backend/projects/scheme) -->
         <div class="project-card" data-project="scheme">
           <div class="project-header" onclick="toggle(this)">
             <div>
@@ -416,16 +603,17 @@ in fact 10
           </div>
         </div>
 
-
-        <!-- Project 5 — placeholder slot for a cybersecurity project -->
-        <div class="project-card" data-project="project4">
+        <!-- Project 6 — Wallet Tracker -->
+        <div class="project-card wallet-card" data-project="cryptocheck">
           <div class="project-header" onclick="toggle(this)">
             <div>
-              <div class="project-title">Cybersecurity Project (coming soon)</div>
-              <div class="project-sub">Add description in HTML once the project is ready</div>
+              <div class="project-title">WalletTracker</div>
+              <div class="project-sub">Multi-chain wallet tracker with FIFO/WAVG cost-basis P&amp;L</div>
               <div class="tags">
-                <span class="tag python">Python</span>
-                <span class="tag">Security</span>
+                <span class="tag">JavaScript</span>
+                <span class="tag">Node.js</span>
+                <span class="tag">Blockchain</span>
+                <span class="tag">Finance</span>
               </div>
             </div>
             <div class="toggle-label"><span class="arrow">▶</span> run</div>
@@ -439,69 +627,43 @@ in fact 10
             </div>
 
             <div class="panel active" data-panel="run">
-              <div class="terminal">
-                <div class="t-out">
-                  <span class="t-green">Project — coming soon</span>
-                  <span class="t-dim">Placeholder slot for a future cybersecurity project.</span>
+              <div id="cc-container" style="padding:14px;background:linear-gradient(180deg,#0d0f18,#06070e);border:1px solid #1c1c2c;font-family:'Inter',-apple-system,sans-serif;font-size:12px;color:#edfdf7;min-height:250px">
+                <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap">
+                  <div>
+                    <div style="font-size:13px;font-weight:700;color:#edfdf7">WalletTracker quick scan</div>
+                    <div style="font-size:10px;color:#638277;margin-top:2px">Preview balances, cash flow, cost basis, and P&amp;L before opening the full dashboard.</div>
+                  </div>
+                  <a href="./crypto-check/index.html" target="_blank"
+                    style="color:#7db7ff;font-size:11px;text-decoration:none;font-weight:600;white-space:nowrap">
+                    Open dashboard ↗
+                  </a>
                 </div>
-                <div class="t-input">
-                  <span class="t-prompt"><img src="./assets/Tsukuyomi99.PNG" width="16" height="16" alt="prompt" style="margin-top:5px;"></span>
-                  <input type="text" placeholder="type here..." style="font-size:12px; margin-top:-2.5px;" onkeydown="if(event.key==='Enter') run(this)">
-                  <button onclick="run(this)">run ↵</button>
+                <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
+                  <input id="cc-addr" type="text" placeholder="Paste wallet address (BTC, ETH, SOL, ADA…)"
+                    style="background:#030706;border:1px solid #28564b;border-radius:6px;padding:7px 11px;
+                    color:#edfdf7;font-family:'JetBrains Mono',monospace;font-size:10px;flex:1;min-width:220px;outline:none"
+                    onkeydown="if(event.key==='Enter')ccLookup()">
+                  <div id="cc-evm-pick" style="display:none;gap:3px;align-items:center">
+                    <button class="cc-echain active" data-ec="eth" onclick="ccPickChain(this)"
+                      style="padding:4px 8px;border-radius:5px;border:1px solid #6c8ef7;background:#6c8ef720;color:#6c8ef7;font-size:10px;font-weight:600;cursor:pointer;font-family:inherit">ETH</button>
+                    <button class="cc-echain" data-ec="base" onclick="ccPickChain(this)"
+                      style="padding:4px 8px;border-radius:5px;border:1px solid #1f2133;background:none;color:#6b7094;font-size:10px;font-weight:600;cursor:pointer;font-family:inherit">BASE</button>
+                    <button class="cc-echain" data-ec="bnb" onclick="ccPickChain(this)"
+                      style="padding:4px 8px;border-radius:5px;border:1px solid #1f2133;background:none;color:#6b7094;font-size:10px;font-weight:600;cursor:pointer;font-family:inherit">BNB</button>
+                  </div>
+                  <button onclick="ccLookup()"
+                    style="padding:7px 14px;background:#4f91ff;border:none;border-radius:6px;color:#fff;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap">Look up</button>
                 </div>
-              </div>
-            </div>
-
-            <div class="panel" data-panel="source">
-              <div class="code-viewer">
-                <div class="src-filelist"><span class="t-dim">click to load</span></div>
-                <pre class="src-code">// select a file to view</pre>
-              </div>
-            </div>
-
-            <div class="panel" data-panel="readme">
-              <div class="info">
-                <p>Reserved slot for an upcoming cybersecurity project — likely
-                   something around applied cryptography, network security, or a
-                   small CTF-style tool. Description and runnable demo will go
-                   here once the project is ready.</p>
-                <a href="https://github.com/NotJaay" target="_blank" class="btn">↗ github</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 6 — placeholder slot for a systems / crypto-finance project -->
-        <div class="project-card" data-project="project5">
-          <div class="project-header" onclick="toggle(this)">
-            <div>
-              <div class="project-title">Systems / Crypto-Finance Project (coming soon)</div>
-              <div class="project-sub">Add description in HTML once the project is ready</div>
-              <div class="tags">
-                <span class="tag c">C</span>
-                <span class="tag">Systems</span>
-              </div>
-            </div>
-            <div class="toggle-label"><span class="arrow">▶</span> run</div>
-          </div>
-
-          <div class="runner">
-            <div class="tabs">
-              <div class="tab active" onclick="switchTab(this, 'run')">▷ run</div>
-              <div class="tab" onclick="switchTab(this, 'source')">{ } source</div>
-              <div class="tab" onclick="switchTab(this, 'readme')">readme</div>
-            </div>
-
-            <div class="panel active" data-panel="run">
-              <div class="terminal">
-                <div class="t-out">
-                  <span class="t-green">Project — coming soon</span>
-                  <span class="t-dim">Placeholder slot for a future systems or crypto-finance project.</span>
+                <div id="cc-status" style="color:#a9c8bd;font-size:11px;line-height:1.6">
+                  Supports BTC · ETH · BASE · BNB · SOL · ADA<br>
+                  <span style="font-size:10px;color:#638277">Nothing is stored — results reset on refresh</span>
                 </div>
-                <div class="t-input">
-                  <span class="t-prompt">$</span>
-                  <input type="text" placeholder="type here..." onkeydown="if(event.key==='Enter') run(this)">
-                  <button onclick="run(this)">run ↵</button>
+                <div id="cc-results" style="display:none;margin-top:10px"></div>
+                <div id="cc-open-link" style="display:none;margin-top:10px">
+                  <a href="./crypto-check/index.html" target="_blank"
+                    style="display:inline-flex;align-items:center;gap:6px;color:#7db7ff;font-size:11px;text-decoration:none;font-weight:700;border:1px solid #28564b;border-radius:6px;padding:7px 10px;background:#07100e">
+                    Open this wallet in dashboard ↗
+                  </a>
                 </div>
               </div>
             </div>
@@ -515,12 +677,20 @@ in fact 10
 
             <div class="panel" data-panel="readme">
               <div class="info">
-                <p>Reserved slot for an upcoming low-level systems project or
-                   something in the crypto-finance space — possibly an order
-                   book simulator, a small market-data tool, or a tiny
-                   blockchain/consensus toy. Description and runnable demo
-                   will go here once the project is ready.</p>
+                <p>WalletTracker looks up any blockchain wallet across BTC, ETH, BASE, BNB, SOL,
+                   and ADA. Paste an address and get full transaction history from genesis,
+                   FIFO and weighted-average cost-basis accounting, realized and unrealized
+                   P&amp;L, break-even prices, and capital flow totals.</p>
+                <p>The backend fetches on-chain data and prices each transaction against
+                   CoinGecko historical data server-side — API keys never leave the server.
+                   All results are stateless and reset on every page load.</p>
+                <p><strong>Unique features:</strong> dual cost-basis (FIFO + WAVG toggle),
+                   per-lot visualization, "house money" metric, full inception scan,
+                   multi-wallet aggregation (in full dashboard), CSV export.</p>
+                <p><strong>Stack:</strong> Vanilla JS · Node.js/Express · Blockstream ·
+                   Etherscan · Helius · Blockfrost · CoinGecko</p>
                 <a href="https://github.com/NotJaay" target="_blank" class="btn">↗ github</a>
+                <a href="./crypto-check/index.html" target="_blank" class="btn" style="margin-left:8px">↗ full dashboard</a>
               </div>
             </div>
           </div>
@@ -549,6 +719,6 @@ in fact 10
   </div>
 
   <footer>built by <a>jay desai ·</a> <a href="https://github.com/NotJaay/" target="_blank">source</a></footer>
-  <script src="script.js?v=3"></script>
+  <script src="script.js?v=7"></script>
 </body>
 </html>
